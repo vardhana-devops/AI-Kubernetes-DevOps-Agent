@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+
 from api.health import router as health_router
+from api.cluster import router as cluster_router
 
 app = FastAPI(
     title="AI Kubernetes DevOps Agent",
@@ -8,3 +10,4 @@ app = FastAPI(
 )
 
 app.include_router(health_router)
+app.include_router(cluster_router)
