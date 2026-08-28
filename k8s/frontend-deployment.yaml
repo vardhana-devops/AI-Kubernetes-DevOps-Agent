@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-k8s-agent-frontend
+  namespace: ai-k8s-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-k8s-agent-frontend
+  template:
+    metadata:
+      labels:
+        app: ai-k8s-agent-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ai-k8s-agent-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
