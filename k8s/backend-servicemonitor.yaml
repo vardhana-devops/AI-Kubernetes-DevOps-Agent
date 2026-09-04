@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-k8s-agent-backend
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - ai-k8s-agent
+  selector:
+    matchLabels:
+      app: ai-k8s-agent-backend
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

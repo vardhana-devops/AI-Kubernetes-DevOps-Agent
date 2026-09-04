@@ -3,11 +3,14 @@ kind: Service
 metadata:
   name: ai-k8s-agent-backend
   namespace: ai-k8s-agent
+  labels:
+    app: ai-k8s-agent-backend
 spec:
   selector:
     app: ai-k8s-agent-backend
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 8000
       targetPort: 8000
   type: ClusterIP

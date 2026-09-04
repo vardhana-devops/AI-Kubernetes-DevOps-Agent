@@ -3,23 +3,56 @@ kind: Deployment
 metadata:
   name: ai-k8s-agent-backend
   namespace: ai-k8s-agent
+
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: ai-k8s-agent-backend
+
   template:
     metadata:
       labels:
         app: ai-k8s-agent-backend
+
     spec:
       serviceAccountName: ai-k8s-agent-backend
+
       containers:
         - name: backend
           image: ai-k8s-agent-backend:latest
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8000
+
           envFrom:
             - secretRef:
                 name: openrouter-secret
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

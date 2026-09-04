@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from api.health import router as health_router
 from api.cluster import router as cluster_router
@@ -25,3 +26,5 @@ app.add_middleware(
 
 app.include_router(health_router)
 app.include_router(cluster_router)
+
+Instrumentator().instrument(app).expose(app)

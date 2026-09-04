@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   backend:
-    name: Backend Validation
+    name: Backend Validation and Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +36,11 @@ jobs:
         working-directory: backend
         run: |
           python -m compileall .
+
+      - name: Run backend tests
+        working-directory: backend
+        run: |
+          PYTHONPATH=. pytest -v
 
   frontend:
     name: Frontend Build
